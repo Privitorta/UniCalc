@@ -14,10 +14,9 @@
 <body class="bg-gray-100 text-gray-800">
 
     <div class="container mx-auto p-4 md:p-8 max-w-4xl">
-
         <header class="text-center mb-8">
             <h1 class="text-4xl font-bold text-sky-500">UniCalc</h1>
-            <p class="text-lg text-gray-600 mt-2">Assistente di calcolo media e previsione voto di laurea per universitari</p>
+            <p class="text-lg text-gray-600 mt-2">Assistente di calcolo media e previsione voto di laurea per universitari.</p>
         </header>
 
         <main class="space-y-8">
@@ -48,7 +47,7 @@
                 <hr class="my-6 border-gray-200">
                 
                 <h3 class="text-xl font-semibold mb-4 text-gray-700">Aggiungi Attività</h3>
-                <!-- Form per aggiungere certificazioni/attività senza voto -->
+                <!-- Form per aggiungere certificazioni/attività... -->
                 <form id="add-cert-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <div class="md:col-span-2">
                         <label for="cert-name" class="block text-sm font-medium text-gray-600">Nome Attività (Tirocinio, Idoneità...)</label>
@@ -63,7 +62,7 @@
                     </button>
                 </form>
 
-                <!-- Lista Esami Aggiunti -->
+                <!-- Lista esami aggiunti -->
                 <div class="mt-8">
                     <h3 class="text-lg font-semibold text-gray-700">Riepilogo Esami e Attività</h3>
                     <div class="mt-2 bg-gray-50 p-3 rounded-lg max-h-64 overflow-y-auto">
@@ -85,7 +84,7 @@
                     </div>
                 </div>
 
-                <!-- Risultati Media -->
+                <!-- Risultati media -->
                 <div id="average-results" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                     <div class="bg-sky-50 p-4 rounded-lg">
                         <p class="text-sm text-sky-500 font-semibold">Media Ponderata</p>
@@ -116,7 +115,7 @@
 
                     <div id="current-projection" class="bg-gray-50 p-4 rounded-lg">
                         <p class="text-sm font-medium text-gray-600">Proiezione Voto di Laurea Attuale</p>
-                        <p class="mt-2 text-3xl font-bold text-sky-500" id="projected-grade">—</p>
+                        <p class="mt-2 text-3xl font-bold text-sky-500" id="projected-grade"> </p>
                         <p class="text-sm text-gray-500 mt-1" id="projected-note">La proiezione usa la media ponderata attuale (solo esami con voto).</p>
                     </div>
                 </div>
@@ -187,6 +186,3 @@
     <script src="js/script.js"></script>
 </body>
 </html>
-
-
-
