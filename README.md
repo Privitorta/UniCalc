@@ -4,14 +4,13 @@ UniCalc è una web app semplice e intuitiva progettata per aiutare gli studenti 
 ## Funzionalità
 ### Calcolo della Media Ponderata
 - **Aggiunta Esami**: Inserisci gli esami sostenuti con nome (opzionale), voto e CFU.
-  
-  > [!NOTE] Gestione lode
-  > Gli esami con lode (30 e lode) sono trattati come 31/32 nel campo voto per permettere alla media di riflettere il bonus.
+> [!NOTE]
+> Gli esami con lode (30 e lode) sono trattati come 31/32 nel campo voto per permettere alla media di riflettere il bonus.
 
 - **Aggiunta Attività**: Aggiungi attività come tirocini, certificazioni, idoneità linguistiche o laboratori che forniscono CFU ma non hanno un voto numerico.
 
-  > [!NOTE] Attività, Tirocini, Certificazioni
-  > Le attività senza voto contribuiscono solo al conteggio CFU e non alla media.
+> [!NOTE]
+> Le attività senza voto contribuiscono solo al conteggio CFU e non alla media.
 
 - **Riepilogo Dinamico**: Visualizza un elenco chiaro e aggiornato di tutti gli esami e le attività inserite, con la possibilità di rimuovere ogni voce singolarmente.
 - **Statistiche**: Aggiornamento istantaneo di media ponderata e totale dei CFU acquisiti.
@@ -26,7 +25,7 @@ Inserisci i CFU totali del tuo corso di laurea e il voto di laurea che desideri 
 ### Progresso CFU e Voto di Laurea Previsto
 Mostra in modo chiaro e aggiornato il tuo progresso verso il conseguimento dei CFU totali richiesti dal corso di laurea e stima un voto di laurea previsto basato sui voti già registrati.
 
-> [!NOTE] Esempio 
+> [!NOTE] 
 Se i CFU totali richiesti sono 180 e i CFU acquisiti sono 120 i CFU rimanenti sono 60 (33%). Se la media corrente è 27.5 il voto di laurea previsto sarà circa 108.
 
 L'app calcola il totale dei CFU acquisiti (esami + attività) e lo confronta con il totale richiesto dal corso. Se l'utente inserisce anche una stima della media che manterrà nei restanti esami, l'app stima il voto di laurea finale. In assenza di una stima, viene mostrata la proiezione basata sull'attuale media ponderata.
@@ -40,7 +39,7 @@ L'app calcola il totale dei CFU acquisiti (esami + attività) e lo confronta con
 
 ![](/assets/images/image3.png)
 
-> [!WARNING] Importante
+> [!IMPORTANT]
 > Il calcolo del voto di laurea è una **stima**: diverse università applicano regole diverse (bonus per lode, commissioni, crediti della tesi). *UniCalc* fornisce una proiezione basata sulla media ponderata e sui CFU, ma **non sostituisce il regolamento ufficiale dell'ateneo**.
 
 ## Come usare UniCalc
