@@ -34,6 +34,9 @@ window.onload = function() {
         if (exams.length === 0) {
             examsList.appendChild(noExamsRow);
         } else {
+            // Contatori separati: uno per le attività (grade === null) e uno per gli esami con voto
+            let activityCounter = 0;
+            let examCounter = 0;
             exams.forEach((exam, index) => {
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-gray-200 last:border-b-0 fade-in';
@@ -41,12 +44,17 @@ window.onload = function() {
                 let gradeDisplay;
                 if (exam.grade === null) {
                     gradeDisplay = '<span class="text-gray-500 font-medium">Idoneità</span>';
+                    activityCounter += 1;
                 } else {
                     gradeDisplay = `<span class="text-indigo-600 font-semibold">${exam.grade > 30 ? '30 e Lode' : exam.grade}</span>`;
+                    examCounter += 1;
                 }
 
+                // Usa i contatori separati solo per i nomi di fallback (quando name è vuoto)
+                const defaultName = exam.name || (exam.grade === null ? `Attività ${activityCounter}` : `Esame ${examCounter}`);
+
                 tr.innerHTML = `
-                    <td class="py-2 px-2 font-medium text-gray-800">${exam.name || (exam.grade === null ? `Attività ${index + 1}` : `Esame ${index + 1}`)}</td>
+                    <td class="py-2 px-2 font-medium text-gray-800">${defaultName}</td>
                     <td class="py-2 px-2 text-center">${gradeDisplay}</td>
                     <td class="py-2 px-2 text-center text-green-600 font-semibold">${exam.cfu} CFU</td>
                     <td class="py-2 px-2 text-center">
