@@ -26,7 +26,7 @@ Inserisci i CFU totali del tuo corso di laurea e il voto di laurea che desideri 
 Mostra in modo chiaro e aggiornato il tuo progresso verso il conseguimento dei CFU totali richiesti dal corso di laurea e stima un voto di laurea previsto basato sui voti già registrati.
 
 > [!NOTE] 
-Se i CFU totali richiesti sono 180 e i CFU acquisiti sono 120 i CFU rimanenti sono 60 (33%). Se la media corrente è 27.5 il voto di laurea previsto sarà circa 108.
+> Se i CFU totali richiesti sono 180 e i CFU acquisiti sono 120 i CFU rimanenti sono 60 (33%). Se la media corrente è 27.5 il voto di laurea previsto sarà circa 108.
 
 L'app calcola il totale dei CFU acquisiti (esami + attività) e lo confronta con il totale richiesto dal corso. Se l'utente inserisce anche una stima della media che manterrà nei restanti esami, l'app stima il voto di laurea finale. In assenza di una stima, viene mostrata la proiezione basata sull'attuale media ponderata.
 - **Input**: elenco di esami (voto e CFU), elenco attività (CFU), CFU totali richiesti dal corso (es. 180), opzionalmente la media stimata per gli esami futuri.
