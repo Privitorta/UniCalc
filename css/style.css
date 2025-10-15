@@ -1,0 +1,42 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+/* Stile per un piccolo effetto di animazione all'apparire dei risultati */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Stile per nascondere le frecce dell'input di tipo numero */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    appearance: textfield;
+}
+
+.progress-fill {
+    transition: width 0.6s ease;
+}
+
+.hidden { 
+    display: none; 
+}
+
+.social-icon a {
+    width: 1.25rem;
+    height: 1.25rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+.social-icons a {
+    transition: color 160ms ease-in-out, transform 160ms ease-in-out;
+    margin: 0 0.25rem;
+}
+.social-icons a:hover {
+    transform: translateY(-1px);
+}

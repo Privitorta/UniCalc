@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniCalc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-sky-500">UniCalc</h1>
+            <p class="text-lg text-gray-600 mt-2">Assistente di calcolo media e previsione voto di laurea per universitari</p>
+        </header>
+
+        <main class="space-y-8">
+            <!-- Sezione 1: Calcolo Media Ponderata -->
+            <section class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-700 border-b pb-2">Calcolo Media Ponderata</h2>
+                
+                <h3 class="text-xl font-semibold mb-4 text-gray-700 mt-4">Aggiungi Esame</h3>
+                <!-- Form per aggiungere esami con voto -->
+                <form id="add-exam-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    <div class="md:col-span-2">
+                        <label for="exam-name" class="block text-sm font-medium text-gray-600">Nome Esame</label>
+                        <input type="text" id="exam-name" placeholder="Es. Algoritmi e Strutture Dati" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="exam-grade" class="block text-sm font-medium text-gray-600">Voto</label>
+                        <input type="number" id="exam-grade" min="18" max="32" placeholder="18-32" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="exam-cfu" class="block text-sm font-medium text-gray-600">CFU</label>
+                        <input type="number" id="exam-cfu" min="1" placeholder="Es. 6" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <button type="submit" class="md:col-span-4 w-full md:w-auto justify-self-end bg-green-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors">
+                        Aggiungi Esame
+                    </button>
+                </form>
+
+                <hr class="my-6 border-gray-200">
+                
+                <h3 class="text-xl font-semibold mb-4 text-gray-700">Aggiungi Attività</h3>
+                <!-- Form per aggiungere certificazioni/attività senza voto -->
+                <form id="add-cert-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div class="md:col-span-2">
+                        <label for="cert-name" class="block text-sm font-medium text-gray-600">Nome Attività (Tirocinio, Idoneità...)</label>
+                        <input type="text" id="cert-name" placeholder="Es. Certificazione Linguistica" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="cert-cfu" class="block text-sm font-medium text-gray-600">CFU</label>
+                        <input type="number" id="cert-cfu" min="1" placeholder="Es. 3" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                     <button type="submit" class="md:col-span-3 w-full md:w-auto justify-self-end bg-sky-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
+                        Aggiungi Attività
+                    </button>
+                </form>
+
+                <!-- Lista Esami Aggiunti -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold text-gray-700">Riepilogo Esami e Attività</h3>
+                    <div class="mt-2 bg-gray-50 p-3 rounded-lg max-h-64 overflow-y-auto">
+                        <table id="exams-table" class="w-full">
+                            <thead class="hidden">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Voto</th>
+                                    <th>CFU</th>
+                                    <th>Azione</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exams-list">
+                                <tr id="no-exams-row">
+                                    <td colspan="4" class="text-center text-gray-500 py-4">Nessun esame o attività ancora inseriti.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Risultati Media -->
+                <div id="average-results" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                    <div class="bg-sky-50 p-4 rounded-lg">
+                        <p class="text-sm text-sky-500 font-semibold">Media Ponderata</p>
+                        <p id="weighted-average" class="text-3xl font-bold text-sky-500">0.00</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="text-sm text-green-600 font-semibold">CFU Acquisiti</p>
+                        <p id="total-cfu" class="text-3xl font-bold text-green-600">0</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Sezione Overview: Avanzamento CFU e Proiezione Voto Attuale -->
+            <section id="overview-section" class="bg-white p-6 rounded-xl shadow-md hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-700 border-b pb-2">Panoramica Progresso</h2>
+
+                <div id="progress-overview" class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-medium text-gray-600">Avanzamento</p>
+                        <div class="mt-3">
+                            <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                                <div id="cfu-progress-fill" class="progress-fill bg-green-500 h-4 w-0"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2" id="cfu-progress-text">0 / 0 CFU (0%)</p>
+                        </div>
+                    </div>
+
+                    <div id="current-projection" class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-medium text-gray-600">Proiezione Voto di Laurea Attuale</p>
+                        <p class="mt-2 text-3xl font-bold text-sky-500" id="projected-grade">—</p>
+                        <p class="text-sm text-gray-500 mt-1" id="projected-note">La proiezione usa la media ponderata attuale (solo esami con voto).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sezione 2: Proiezione Voto di Laurea -->
+            <section class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-700 border-b pb-2">Proiezione Voto di Laurea</h2>
+                <p class="text-sm text-gray-500 mb-4">Calcola la media che devi mantenere per raggiungere il tuo obiettivo di laurea. I dati inseriti sopra verranno usati automaticamente.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div>
+                        <label for="total-degree-cfu" class="block text-sm font-medium text-gray-600">CFU Totali Laurea</label>
+                        <input type="number" id="total-degree-cfu" min="1" placeholder="Es. 180" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="desired-grade" class="block text-sm font-medium text-gray-600">Voto Laurea Desiderato</label>
+                        <input type="number" id="desired-grade" min="66" max="110" placeholder="66-110" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                     <button id="calculate-projection-btn" class="w-full md:w-auto bg-sky-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors">
+                        Calcola
+                    </button>
+                </div>
+                
+                <!-- Risultato Proiezione -->
+                <div id="projection-result" class="mt-6 text-center">
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center mt-8 py-4">
+            <p class="text-gray-500 text-sm">&copy; 2025 Emma Privitera - All rights reserved</p>
+        </footer>
+
+        <!-- Social icons -->
+        <div class="social-icons text-center" aria-label="Collegamenti social">
+            <a href="https://github.com/Privitorta" class="inline-block mx-2 text-gray-500 hover:text-gray-700 transition-colors" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                <!-- GitHub icon -->
+                <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill="currentColor" d="M12 0.5C5.37 0.5 0 5.87 0 12.5c0 5.28 3.438 9.75 8.205 11.325.6.11.82-.26.82-.577 0-.285-.01-1.04-.016-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.76-1.605-2.665-.305-5.467-1.332-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.526.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.984-.399 3.005-.404 1.02.005 2.048.138 3.006.404 2.29-1.553 3.296-1.23 3.296-1.23.654 1.65.243 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.62-5.48 5.92.43.372.815 1.102.815 2.222 0 1.605-.015 2.898-.015 3.293 0 .32.216.694.825.576C20.565 22.246 24 17.78 24 12.5 24 5.87 18.63 0.5 12 0.5z"/>
+                </svg>
+            </a>
+
+            <a href="https://www.linkedin.com/emmaprivitera" class="inline-block mx-2 text-gray-500 hover:text-blue-600 transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <!-- LinkedIn icon (standard 24x24) -->
+                <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill="currentColor" d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM7.25 20h-3V9h3v11zM5.75 7.7c-.97 0-1.75-.79-1.75-1.75S4.78 4.2 5.75 4.2s1.75.79 1.75 1.75-.78 1.75-1.75 1.75zM21 20h-3v-5.5c0-1.32-.03-3.01-1.83-3.01-1.83 0-2.11 1.43-2.11 2.91V20h-3V9h2.88v1.5h.04c.4-.76 1.37-1.56 2.82-1.56 3.02 0 3.58 1.99 3.58 4.57V20z"/>
+                </svg>
+            </a>
+
+            <a href="https://t.me/t3stacr0ce" class="inline-block mx-2 text-gray-500 hover:text-sky-500 transition-colors" aria-label="Telegram" target="_blank" rel="noopener noreferrer">
+                <!-- Telegram icon (standard 24x24) -->
+                <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill="currentColor" d="M12 0C5.373 0 0 5.373 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12C24 5.373 18.627 0 12 0zm5.07 7.09l-1.9 9.07c-.14.64-.5.8-1.01.5l-2.8-2.07-1.36 1.31c-.15.15-.28.28-.57.28l.2-2.84 5.17-4.7c.23-.19-.05-.3-.35-.11l-6.38 4.03-2.74-.86c-.6-.19-.61-.6.12-.89l10.68-4.12c.49-.19.92.12.76.67z"/>
+                </svg>
+            </a>
+
+            <a href="mailto:emma.privitera.505@gmail.com" class="inline-block mx-2 text-gray-500 hover:text-rose-500 transition-colors" aria-label="Email" target="_blank" rel="noopener noreferrer">
+                <!-- Mail icon -->
+                <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+            </a>
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+
+
+
