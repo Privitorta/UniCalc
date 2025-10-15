@@ -6,12 +6,12 @@ UniCalc è una web app semplice e intuitiva progettata per aiutare gli studenti 
 - **Aggiunta Esami**: Inserisci gli esami sostenuti con nome (opzionale), voto e CFU.
   
   > [!NOTE] Gestione lode
-  Gli esami con lode (30 e lode) sono trattati come 31/32 nel campo voto per permettere alla media di riflettere il bonus.
+  > Gli esami con lode (30 e lode) sono trattati come 31/32 nel campo voto per permettere alla media di riflettere il bonus.
 
 - **Aggiunta Attività**: Aggiungi attività come tirocini, certificazioni, idoneità linguistiche o laboratori che forniscono CFU ma non hanno un voto numerico.
 
   > [!NOTE] Attività, Tirocini, Certificazioni
-  Le attività senza voto contribuiscono solo al conteggio CFU e non alla media.
+  > Le attività senza voto contribuiscono solo al conteggio CFU e non alla media.
 
 - **Riepilogo Dinamico**: Visualizza un elenco chiaro e aggiornato di tutti gli esami e le attività inserite, con la possibilità di rimuovere ogni voce singolarmente.
 - **Statistiche**: Aggiornamento istantaneo di media ponderata e totale dei CFU acquisiti.
@@ -41,7 +41,7 @@ L'app calcola il totale dei CFU acquisiti (esami + attività) e lo confronta con
 ![](/assets/images/image3.png)
 
 > [!WARNING] Importante
-Il calcolo del voto di laurea è una **stima**: diverse università applicano regole diverse (bonus per lode, commissioni, crediti della tesi). *UniCalc* fornisce una proiezione basata sulla media ponderata e sui CFU, ma **non sostituisce il regolamento ufficiale dell'ateneo**.
+> Il calcolo del voto di laurea è una **stima**: diverse università applicano regole diverse (bonus per lode, commissioni, crediti della tesi). *UniCalc* fornisce una proiezione basata sulla media ponderata e sui CFU, ma **non sostituisce il regolamento ufficiale dell'ateneo**.
 
 ## Come usare UniCalc
 Essendo una web app statica contenuta in un unico file HTML, non richiede installazione né un server. Clona la repo, salvala e fai doppio click sul file `index.html` per aprirla in qualsiasi browser.
