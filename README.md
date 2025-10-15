@@ -15,12 +15,12 @@ UniCalc è una web app semplice e intuitiva progettata per aiutare gli studenti 
 - **Riepilogo Dinamico**: Visualizza un elenco chiaro e aggiornato di tutti gli esami e le attività inserite, con la possibilità di rimuovere ogni voce singolarmente.
 - **Statistiche**: Aggiornamento istantaneo di media ponderata e totale dei CFU acquisiti.
 
-![](/assets/images/image1.png)
+![](./assets/images/image1.png)
 
 ### Proiezione del Voto di Laurea
 Inserisci i CFU totali del tuo corso di laurea e il voto di laurea che desideri ottenere (es. 110). L'applicazione calcolerà istantaneamente la media che dovrai mantenere negli esami futuri per raggiungere il tuo obiettivo. Inoltre, ricevi un feedback chiaro sulla fattibilità del tuo obiettivo (se è realistico, difficile o già superato).
 
-![](/assets/images/image2.png)
+![](./assets/images/image2.png)
 
 ### Progresso CFU e Voto di Laurea Previsto
 Mostra in modo chiaro e aggiornato il tuo progresso verso il conseguimento dei CFU totali richiesti dal corso di laurea e stima un voto di laurea previsto basato sui voti già registrati.
@@ -37,7 +37,7 @@ L'app calcola il totale dei CFU acquisiti (esami + attività) e lo confronta con
 	- Voto di laurea previsto (stima) e spiegazione sul calcolo
 	- Indicazione di fattibilità
 
-![](/assets/images/image3.png)
+![](./assets/images/image3.png)
 
 > [!IMPORTANT]
 > Il calcolo del voto di laurea è una **stima**: diverse università applicano regole diverse (bonus per lode, commissioni, crediti della tesi). *UniCalc* fornisce una proiezione basata sulla media ponderata e sui CFU, ma **non sostituisce il regolamento ufficiale dell'ateneo**.
