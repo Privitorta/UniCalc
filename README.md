@@ -43,7 +43,10 @@ L'app calcola il totale dei CFU acquisiti (esami + attività) e lo confronta con
 > Il calcolo del voto di laurea è una **stima**: diverse università applicano regole diverse (bonus per lode, commissioni, crediti della tesi). *UniCalc* fornisce una proiezione basata sulla media ponderata e sui CFU, ma **non sostituisce il regolamento ufficiale dell'ateneo**.
 
 ## Come usare UniCalc
-Essendo una web app statica contenuta in un unico file HTML, non richiede installazione né un server. Clona la repo, salvala e fai doppio click sul file `index.html` per aprirla in qualsiasi browser.
+
+Ora utilizzabile facilmente dal link: [https://privitorta.github.io/UniCalc/](https://privitorta.github.io/UniCalc/)
+
+Altrimenti, essendo una web app statica contenuta in un unico file HTML, non richiede installazione né un server. Clona la repo, salvala e fai doppio click sul file `index.html` per aprirla in qualsiasi browser.
 
 ## Tecnologie
 - **HTML5**: Struttura
