@@ -38,30 +38,55 @@ window.onload = function() {
             let activityCounter = 0;
             let examCounter = 0;
             exams.forEach((exam, index) => {
-                const tr = document.createElement('tr');
-                tr.className = 'border-b border-gray-200 last:border-b-0 fade-in';
-                
-                let gradeDisplay;
-                if (exam.grade === null) {
-                    gradeDisplay = '<span class="text-gray-500 font-medium">Idoneità</span>';
-                    activityCounter += 1;
-                } else {
-                    gradeDisplay = `<span class="text-indigo-600 font-semibold">${exam.grade > 30 ? '30 e Lode' : exam.grade}</span>`;
-                    examCounter += 1;
-                }
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-gray-200 last:border-b-0 fade-in';
 
-                // Usa i contatori separati solo per i nomi di fallback (quando name è vuoto)
-                const defaultName = exam.name || (exam.grade === null ? `Attività ${activityCounter}` : `Esame ${examCounter}`);
+                    // Determina i contatori e il nome di default in modo sicuro
+                    if (exam.grade === null) {
+                        activityCounter += 1;
+                    } else {
+                        examCounter += 1;
+                    }
+                    const defaultName = exam.name || (exam.grade === null ? `Attività ${activityCounter}` : `Esame ${examCounter}`);
 
-                tr.innerHTML = `
-                    <td class="py-2 px-2 font-medium text-gray-800">${defaultName}</td>
-                    <td class="py-2 px-2 text-center">${gradeDisplay}</td>
-                    <td class="py-2 px-2 text-center text-green-600 font-semibold">${exam.cfu} CFU</td>
-                    <td class="py-2 px-2 text-center">
-                        <button data-index="${index}" class="remove-btn text-red-500 hover:text-red-700 text-sm font-medium">Rimuovi</button>
-                    </td>
-                `;
-                examsList.appendChild(tr);
+                    // Nome (uso textContent per evitare XSS)
+                    const tdName = document.createElement('td');
+                    tdName.className = 'py-2 px-2 font-medium text-gray-800';
+                    tdName.textContent = defaultName;
+                    tr.appendChild(tdName);
+
+                    // Voto
+                    const tdGrade = document.createElement('td');
+                    tdGrade.className = 'py-2 px-2 text-center';
+                    const gradeSpan = document.createElement('span');
+                    if (exam.grade === null) {
+                        gradeSpan.className = 'text-gray-500 font-medium';
+                        gradeSpan.textContent = 'Idoneità';
+                    } else {
+                        gradeSpan.className = 'text-indigo-600 font-semibold';
+                        gradeSpan.textContent = (exam.grade > 30 ? '30 e Lode' : String(exam.grade));
+                    }
+                    tdGrade.appendChild(gradeSpan);
+                    tr.appendChild(tdGrade);
+
+                    // CFU
+                    const tdCfu = document.createElement('td');
+                    tdCfu.className = 'py-2 px-2 text-center text-green-600 font-semibold';
+                    tdCfu.textContent = `${exam.cfu} CFU`;
+                    tr.appendChild(tdCfu);
+
+                    // Azione (bottone Rimuovi)
+                    const tdAction = document.createElement('td');
+                    tdAction.className = 'py-2 px-2 text-center';
+                    const btn = document.createElement('button');
+                    btn.dataset.index = String(index);
+                    btn.className = 'remove-btn text-red-500 hover:text-red-700 text-sm font-medium';
+                    btn.type = 'button';
+                    btn.textContent = 'Rimuovi';
+                    tdAction.appendChild(btn);
+                    tr.appendChild(tdAction);
+
+                    examsList.appendChild(tr);
             });
         }
     }
@@ -227,7 +252,11 @@ window.onload = function() {
         const desiredGrade = parseInt(desiredGradeInput.value, 10);
 
         if (isNaN(totalDegreeCfu) || isNaN(desiredGrade) || totalDegreeCfu <= 0 || desiredGrade < 66 || desiredGrade > 110) {
-            projectionResultEl.innerHTML = `<p class="text-red-600 font-medium">Per favore, inserisci i CFU totali e un voto di laurea desiderato validi.</p>`;
+            projectionResultEl.textContent = '';
+            const p = document.createElement('p');
+            p.className = 'text-red-600 font-medium';
+            p.textContent = 'Per favore, inserisci i CFU totali e un voto di laurea desiderato validi.';
+            projectionResultEl.appendChild(p);
             return;
         }
 
@@ -236,8 +265,13 @@ window.onload = function() {
             .filter(exam => exam.grade !== null)
             .reduce((sum, exam) => sum + (Math.min(exam.grade, 30) * exam.cfu), 0);
 
+        // CFU già completi
         if (currentCfu >= totalDegreeCfu) {
-            projectionResultEl.innerHTML = `<p class="text-yellow-600 font-medium">Hai già acquisito tutti i CFU necessari!</p>`;
+            projectionResultEl.textContent = '';
+            const p = document.createElement('p');
+            p.className = 'text-yellow-600 font-medium';
+            p.textContent = 'Hai già acquisito tutti i CFU necessari.';
+            projectionResultEl.appendChild(p);
             return;
         }
 
@@ -252,33 +286,71 @@ window.onload = function() {
 
         const requiredFutureAverage = futureSumOfProducts / remainingCfu;
 
-        let resultHTML = '';
+        projectionResultEl.textContent = '';
+        const container = document.createElement('div');
+        container.className = 'p-4 rounded-lg fade-in';
+
+        const heading = document.createElement('h4');
+        heading.className = 'font-bold text-lg';
+
+        const message = document.createElement('p');
+        message.className = 'mt-2';
+
+        const note = document.createElement('p');
+        note.className = 'text-sm mt-1';
+
+        // Blocco di voto impossibile
         if (requiredFutureAverage > 30) {
-            resultHTML = `
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg fade-in">
-                    <h4 class="font-bold text-lg">Obiettivo Difficile</h4>
-                    <p>Per laurearti con ${desiredGrade}, dovresti mantenere una media di <strong class="text-xl">${requiredFutureAverage.toFixed(2)}</strong> sui prossimi <strong>${remainingCfu}</strong> CFU.</p>
-                    <p class="text-sm mt-1">Questo risultato è matematicamente impossibile. Prova a ricalibrare il tuo obiettivo.</p>
-                </div>
-            `;
+            container.className = 'bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg fade-in';
+            heading.textContent = 'Obiettivo Difficile';
+            message.textContent = `Per laurearti con ${desiredGrade}, dovresti mantenere una media di `;
+            const strongAvg = document.createElement('strong');
+            strongAvg.className = 'text-xl';
+            strongAvg.textContent = requiredFutureAverage.toFixed(2);
+            message.appendChild(strongAvg);
+            message.appendChild(document.createTextNode(` sui prossimi `));
+            const strongCfu = document.createElement('strong');
+            strongCfu.textContent = String(remainingCfu);
+            message.appendChild(strongCfu);
+            message.appendChild(document.createTextNode(' CFU.'));
+            note.textContent = 'Questo risultato è matematicamente impossibile. Prova a ricalibrare il tuo obiettivo.';
+
+        // Blocco di voto raggiungibile
         } else if (requiredFutureAverage < 18) {
-                resultHTML = `
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg fade-in">
-                    <h4 class="font-bold text-lg">Obiettivo Raggiungibile</h4>
-                    <p>Per laurearti con ${desiredGrade}, ti basta mantenere una media di <strong class="text-xl">${requiredFutureAverage.toFixed(2)}</strong> sui prossimi <strong>${remainingCfu}</strong> CFU.</p>
-                        <p class="text-sm mt-1">Puoi farcela senza problemi.</p>
-                </div>
-            `;
+            container.className = 'bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg fade-in';
+            heading.textContent = 'Obiettivo Raggiungibile';
+            message.textContent = `Per laurearti con ${desiredGrade}, ti basta mantenere una media di `;
+            const strongAvg = document.createElement('strong');
+            strongAvg.className = 'text-xl';
+            strongAvg.textContent = requiredFutureAverage.toFixed(2);
+            message.appendChild(strongAvg);
+            message.appendChild(document.createTextNode(` sui prossimi `));
+            const strongCfu = document.createElement('strong');
+            strongCfu.textContent = String(remainingCfu);
+            message.appendChild(strongCfu);
+            message.appendChild(document.createTextNode(' CFU.'));
+            note.textContent = 'Puoi farcela senza problemi.';
+
+        // Blocco di voto standard
         } else {
-                resultHTML = `
-                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg fade-in">
-                    <h4 class="font-bold text-lg">Il Tuo Obiettivo</h4>
-                    <p>Per laurearti con ${desiredGrade}, dovrai mantenere una media del <strong class="text-xl">${requiredFutureAverage.toFixed(2)}</strong> sui prossimi <strong>${remainingCfu}</strong> CFU.</p>
-                </div>
-            `;
+            container.className = 'bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg fade-in';
+            heading.textContent = 'Il Tuo Obiettivo';
+            message.textContent = `Per laurearti con ${desiredGrade}, dovrai mantenere una media del `;
+            const strongAvg = document.createElement('strong');
+            strongAvg.className = 'text-xl';
+            strongAvg.textContent = requiredFutureAverage.toFixed(2);
+            message.appendChild(strongAvg);
+            message.appendChild(document.createTextNode(' sui prossimi '));
+            const strongCfu = document.createElement('strong');
+            strongCfu.textContent = String(remainingCfu);
+            message.appendChild(strongCfu);
+            message.appendChild(document.createTextNode(' CFU.'));
         }
-        
-        projectionResultEl.innerHTML = resultHTML;
+
+        container.appendChild(heading);
+        container.appendChild(message);
+        if (note.textContent) container.appendChild(note);
+        projectionResultEl.appendChild(container);
 
         return false;
     };
